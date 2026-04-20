@@ -1,0 +1,53 @@
+backend:
+  name: github
+  repo: prof-ramos/gibeonita-blog
+  branch: main
+  base_url: https://gibeonita-cms-auth.prof-ramos.workers.dev
+  auth_endpoint: auth
+
+locale: pt
+
+media_folder: ""
+public_folder: ""
+
+collections:
+  - name: posts
+    label: Posts
+    label_singular: Post
+    folder: content/posts
+    path: "{{slug}}/index"
+    create: true
+    slug: "{{fields.title}}"
+    media_folder: ""
+    public_folder: ""
+    editor:
+      preview: false
+    fields:
+      - label: Título
+        name: title
+        widget: string
+      - label: Data
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        default: "{{now}}"
+      - label: Rascunho
+        name: draft
+        widget: boolean
+        default: true
+      - label: Resumo
+        name: summary
+        widget: string
+        required: false
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Imagem de Capa
+        name: image
+        widget: image
+        required: false
+      - label: Conteúdo
+        name: body
+        widget: markdown
