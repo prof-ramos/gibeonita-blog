@@ -2,7 +2,7 @@ backend:
   name: github
   repo: prof-ramos/gibeonita-blog
   branch: main
-  base_url: https://gibeonita-cms-auth.prof-ramos.workers.dev
+  base_url: https://gibeonita-cms-auth.gabrielgfcramos.workers.dev
   auth_endpoint: auth
 
 locale: pt
