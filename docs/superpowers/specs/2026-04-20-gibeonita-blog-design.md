@@ -137,26 +137,37 @@ markup:
 
 ## GitHub Actions — deploy.yml
 
-- Trigger: push em `main`
-- Hugo version: latest
-- Usa `peaceiris/actions-hugo` para build
-- Usa `peaceiris/actions-gh-pages` para push na branch `gh-pages`
-- Inclui `CNAME` com `gibeonita.com.br` automaticamente via `cname` param
+Workflow oficial recomendado pela documentação do Hugo (`host-on-github-pages`):
+
+- Trigger: push em `main` + `workflow_dispatch`
+- Checkout com `submodules: recursive` (necessário para o git submodule do PaperMod)
+- Instala Hugo Extended via curl (não via action de terceiros)
+- `hugo build --gc --minify --baseURL "https://gibeonita.com.br/"`
+- Deploy via `actions/upload-pages-artifact` + `actions/deploy-pages` (API nativa do GitHub Pages)
+- **Não usa** `peaceiris/actions-gh-pages` nem branch `gh-pages`
+
+Permissões necessárias no workflow:
+```yaml
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+```
 
 ## Cloudflare DNS
 
 | Tipo | Nome | Valor | Proxy |
 |---|---|---|---|
-| CNAME | `@` (ou `gibeonita.com.br`) | `prof-ramos.github.io` | OFF (DNS only) |
+| CNAME | `@` | `prof-ramos.github.io` | OFF (DNS only) |
 | CNAME | `www` | `prof-ramos.github.io` | OFF (DNS only) |
 
 > Proxy deve estar OFF (cinza) para que os certificados TLS do GitHub Pages funcionem corretamente.
 
 ## GitHub Pages — configuração no repo
 
-- Source: branch `gh-pages`, raiz `/`
+- **Settings > Pages > Source: `GitHub Actions`** (não branch)
 - Custom domain: `gibeonita.com.br`
-- Enforce HTTPS: habilitado
+- Enforce HTTPS: habilitado após propagação DNS
 
 ## i18n — pt-br.yaml
 
